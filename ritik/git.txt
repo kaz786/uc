@@ -1,0 +1,2 @@
+git remote add origin https://github.com/kaz786/uc.git
+git push -u origin master
