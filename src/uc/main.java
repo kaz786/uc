@@ -134,13 +134,14 @@ public class main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        this.setVisible(false);
         ds a = new ds();
         a.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.setVisible(false);
         cr a=new cr();
         a.setVisible(true);
         
@@ -148,12 +149,14 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.setVisible(false);
         dr a=new dr();
          a.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        this.setVisible(false);
         assign a=new assign();
          a.setVisible(true);
             // TODO add your handling code here:
@@ -164,7 +167,7 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        
+        this.setVisible(false);
         ds1 a=new ds1();
          a.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
