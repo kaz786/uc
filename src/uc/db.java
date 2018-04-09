@@ -4,19 +4,18 @@
  * and open the template in the editor.
  */
 package uc;
-
 import java.sql.*;
 import javax.swing.*;
 /**
  *
  * @author Ritik
  */
-public class conn {
+public class db {
     
     public static String url="jdbc:derby://localhost:1527/u_cars";
     public static String drivername ="org.apache.derby.jdbc.ClientDriver";
-    public static String username="u_cars";
-    public static String password="usha@181";
+    public static String username="ritik";
+    public static String password="ritik";
     public static Connection con;
     public static Statement statement;
     public static PreparedStatement ps;
@@ -41,3 +40,4 @@ public class conn {
         return con;
     }
 }
+

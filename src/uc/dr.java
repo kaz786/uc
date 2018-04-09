@@ -5,11 +5,11 @@
  */
 package uc;
 
+import java.awt.Color;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.sql.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -34,14 +34,93 @@ public class dr extends javax.swing.JFrame {
     Connection c=null;
     PreparedStatement st=null;
     ResultSet rs=null;
+    Statement s=null;
     JFileChooser a =new JFileChooser();
+    
     /**
      * Creates new form dr
      */
     public dr() {
         initComponents();
+        fc();
     }
-
+   void fc()
+    {
+     try
+     {
+        
+    
+         Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
+     c=DriverManager.getConnection(cu,"ritik","ritik");
+     s=c.createStatement();
+     String sql="select d_id from d_ddetails";
+     rs=s.executeQuery(sql);
+     jComboBox1.removeAllItems();
+     
+     while(rs.next())
+     {
+         jComboBox1.addItem(String.valueOf(rs.getInt("d_id")));
+         
+     }
+     }
+        catch(SQLException se)
+        {
+            se.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+    public void clear()
+    {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextField6.setText("");
+        jTextField7.setText("");
+        jTextField8.setText("");
+        jTextArea1.setText("");
+        jTextArea2.setText("");
+        
+    }
+public void dt()
+    {
+        
+        try
+        {
+            db.con=db.getConnection();
+            db.statement=db.con.createStatement();
+            String sql="select * from d_ddetails";
+            db.rs=db.statement.executeQuery(sql);
+            int i=0;
+            while(db.rs.next())
+            {
+                jTable1.setValueAt(db.rs.getInt(1), i, 0);
+                jTable1.setValueAt(db.rs.getString(2), i, 1);
+                jTable1.setValueAt(db.rs.getString(3), i, 2);
+                jTable1.setValueAt(db.rs.getString(4), i, 3);
+                jTable1.setValueAt(db.rs.getString(5), i, 4);
+                jTable1.setValueAt(db.rs.getString(6), i, 5);
+                jTable1.setValueAt(db.rs.getString(7), i, 6);
+                jTable1.setValueAt(db.rs.getString(8), i, 7);
+                jTable1.setValueAt(db.rs.getString(9), i, 8);
+                jTable1.setValueAt(db.rs.getString(10), i, 9);
+                i++;
+                
+            }
+        }
+    catch(SQLException se)
+    {
+        se.printStackTrace();
+    }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+            }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,6 +160,9 @@ public class dr extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jTextField8 = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("::Driver Registration::");
@@ -205,6 +287,26 @@ public class dr extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel9))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                            .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField7)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -227,28 +329,7 @@ public class dr extends javax.swing.JFrame {
                         .addComponent(jButton6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton7)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel9))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField6)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField3)
-                    .addComponent(jTextField4)
-                    .addComponent(jTextField8)
-                    .addComponent(jTextField7))
-                .addGap(298, 298, 298))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,7 +346,7 @@ public class dr extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -291,7 +372,7 @@ public class dr extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
@@ -300,117 +381,178 @@ public class dr extends javax.swing.JFrame {
                     .addComponent(jButton5)
                     .addComponent(jButton6)
                     .addComponent(jButton7))
-                .addGap(84, 84, 84))
+                .addGap(394, 394, 394))
         );
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Id", "Name", "Number", "Email Id", "Alternatre Number", "DL", "Valid upto", "Uidai", "Temp Add.", "Perm Add."
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+            jTable1.getColumnModel().getColumn(6).setResizable(false);
+            jTable1.getColumnModel().getColumn(7).setResizable(false);
+            jTable1.getColumnModel().getColumn(8).setResizable(false);
+            jTable1.getColumnModel().getColumn(9).setResizable(false);
+        }
+
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(180, 180, 180))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 83, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(138, 138, 138))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
-
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
-
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
-
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
-
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-jButton2.setEnabled(true);
-jButton3.setEnabled(true);
-        
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      jButton5.setEnabled(true);
-      jButton1.setEnabled(false);
-    
-        
-            // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         main o = new main();
         o.setVisible(true);
         // TODO add your handling code here:
-
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         try
-    {
-    Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
-    int id=Integer.parseInt(jTextField1.getText());
-    String name= jTextField2.getText();
-    double mob=Double.parseDouble(jTextField3.getText());
-    String em=jTextField4.getText();
-    double anum=Double.parseDouble(jTextField5.getText());
-    String dl=jTextField6.getText();
-    String vl=jTextField8.getText();
-    String ui=jTextField7.getText();
-    String tadd=jTextArea1.getText();
-    String padd=jTextArea2.getText();
-    String sql="insert into d_ddetails values(?,?,?,?,?,?,?,?,?,?)";
-    c=DriverManager.getConnection(cu,"ritik","ritik");
-    st=c.prepareStatement(sql);
-    st.setInt(1,id);
-    st.setString(2,name);
-    st.setDouble(3,mob);
-    st.setString(4,em);
-    st.setDouble(5,anum);
-    st.setString(6,dl);
-    st.setString(7,vl);
-    st.setString(8,ui);
-    st.setString(9,tadd);
-    st.setString(10,padd);
-    st.executeUpdate();
-    JOptionPane.showMessageDialog(null,"Data is saved");
-    
-    }
-            
-    
-    catch(SQLException ab)
-    {
-        ab.printStackTrace();
-        
-    }
-    catch(Exception e)
-    {
-    e.printStackTrace();
-    }
+        {
+            Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
+            int id=Integer.parseInt(jTextField1.getText());
+            String name= jTextField2.getText();
+            double mob=Double.parseDouble(jTextField3.getText());
+            String em=jTextField4.getText();
+            double anum=Double.parseDouble(jTextField5.getText());
+            String dl=jTextField6.getText();
+            String vl=jTextField8.getText();
+            String ui=jTextField7.getText();
+            String tadd=jTextArea1.getText();
+            String padd=jTextArea2.getText();
+            String sql="insert into d_ddetails values(?,?,?,?,?,?,?,?,?,?)";
+            c=DriverManager.getConnection(cu,"ritik","ritik");
+            st=c.prepareStatement(sql);
+            st.setInt(1,id);
+            st.setString(2,name);
+            st.setDouble(3,mob);
+            st.setString(4,em);
+            st.setDouble(5,anum);
+            st.setString(6,dl);
+            st.setString(7,vl);
+            st.setString(8,ui);
+            st.setString(9,tadd);
+            st.setString(10,padd);
+            st.executeUpdate();
+            JOptionPane.showMessageDialog(null,"Data is saved");
+
+        }
+
+        catch(SQLException ab)
+        {
+            ab.printStackTrace();
+
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        jButton2.setEnabled(true);
+        jButton3.setEnabled(true);
+        dt();
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try
+        {
+            Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
+            int id=Integer.parseInt(jTextField1.getText());
+
+            String sql="delete from d_ddetails where d_id=?";
+            c=DriverManager.getConnection(cu,"ritik","ritik");
+            st=c.prepareStatement(sql);
+
+            st.setInt(1,id);
+            //ps.setString(2,em);
+            //ps.setInt(3,rno);
+            st.execute();
+            JOptionPane.showMessageDialog(null,"Data is deleteed");
+            clear();
+            dt();
+        }
+
+        catch(SQLException ab)
+        {
+            ab.printStackTrace();
+
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try
@@ -441,60 +583,113 @@ jButton3.setEnabled(true);
             st.setInt(10, id);
             st.execute();
             JOptionPane.showMessageDialog(null,"Data is updated");
-            
+            dt();
+            clear();
+        }
 
+        catch(SQLException ab)
+        {
+            ab.printStackTrace();
 
-    }
-            
-    
-    catch(SQLException ab)
-    {
-        ab.printStackTrace();
-        
-    }
-    catch(Exception e)
-    {
-    e.printStackTrace();
-    }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-         try
-    {
-    Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
-    int id=Integer.parseInt(jTextField1.getText());
-            
-    String sql="delete from d_ddetails where d_id=?";
-    c=DriverManager.getConnection(cu,"ritik","ritik");
-    st=c.prepareStatement(sql);
-    
-    st.setInt(1,id);
-    //ps.setString(2,em);
-    //ps.setInt(3,rno);
-    st.execute();
-    JOptionPane.showMessageDialog(null,"Data is deleteed");
-    jTextField1.setText("");
-    jTextField2.setText("");
-    
-    
-    }
-            
-    
-    catch(SQLException ab)
-    {
-        ab.printStackTrace();
-        
-    }
-    catch(Exception e)
-    {
-    e.printStackTrace();
-    }
-
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jButton5.setEnabled(true);
+        jButton1.setEnabled(false);
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField7ActionPerformed
+
+    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField6ActionPerformed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        int selectedrow = jTable1.getSelectedRow();
+        jTextField1.setText(model.getValueAt(selectedrow,0).toString());
+        jTextField2.setText(model.getValueAt(selectedrow,1).toString());
+        jTextField3.setText(model.getValueAt(selectedrow,2).toString());
+        jTextField4.setText(model.getValueAt(selectedrow,3).toString());
+        jTextField5.setText(model.getValueAt(selectedrow,4).toString());
+        jTextField6.setText(model.getValueAt(selectedrow,5).toString());
+        jTextField8.setText(model.getValueAt(selectedrow,6).toString());
+        jTextField7.setText(model.getValueAt(selectedrow,7).toString());
+        jTextArea1.setText(model.getValueAt(selectedrow,8).toString());
+        jTextArea2.setText(model.getValueAt(selectedrow,9).toString());
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+try
+      {
+          String cu="jdbc:derby://localhost:1527/u_cars";
+    Connection connection=null;
+    ResultSet rs=null;
+    PreparedStatement ps=null;
+        
+            int roll=Integer.parseInt(jComboBox1.getSelectedItem().toString());
+            Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
+            connection=DriverManager.getConnection(cu,"ritik","ritik");
+            String sql="select * from d_ddetails where d_id=?";
+            ps=connection.prepareStatement(sql);
+            ps.setInt(1, roll);
+            rs=ps.executeQuery();
+            
+            int i=0;
+            while(rs.next())
+            {
+                jTable1.setValueAt(db.rs.getInt(1), i, 0);
+                jTable1.setValueAt(db.rs.getString(2), i, 1);
+                jTable1.setValueAt(db.rs.getString(3), i, 2);
+                jTable1.setValueAt(db.rs.getString(4), i, 3);
+                jTable1.setValueAt(db.rs.getString(5), i, 4);
+                jTable1.setValueAt(db.rs.getString(6), i, 5);
+                jTable1.setValueAt(db.rs.getString(7), i, 6);
+                jTable1.setValueAt(db.rs.getString(8), i, 7);
+                jTable1.setValueAt(db.rs.getString(9), i, 8);
+                jTable1.setValueAt(db.rs.getString(10), i, 9);
+                i++;  
+                
+            }
+     
+      }
+       catch(SQLException se)
+       {
+           se.printStackTrace();
+       }
+      catch(Exception e)
+      {
+          e.printStackTrace();
+      }        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -539,6 +734,7 @@ jButton3.setEnabled(true);
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -552,6 +748,8 @@ jButton3.setEnabled(true);
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
