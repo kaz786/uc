@@ -5,7 +5,6 @@
  */
 package uc;
 
-import java.awt.Color;
 import java.io.File;
 import java.sql.*;
 import javax.swing.*;
@@ -43,6 +42,8 @@ public class dr extends javax.swing.JFrame {
     public dr() {
         initComponents();
         fc();
+        jTextField1.setEnabled(false);
+        
     }
    void fc()
     {
@@ -56,7 +57,8 @@ public class dr extends javax.swing.JFrame {
      String sql="select d_id from d_ddetails";
      rs=s.executeQuery(sql);
      jComboBox1.removeAllItems();
-     
+    
+     jComboBox1.addItem("1");
      while(rs.next())
      {
          jComboBox1.addItem(String.valueOf(rs.getInt("d_id")));
@@ -167,7 +169,7 @@ public void dt()
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("::Driver Registration::");
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 51));
+        jPanel1.setBackground(new java.awt.Color(51, 255, 255));
 
         jLabel1.setText("Driver Unique Id");
 
@@ -272,6 +274,11 @@ public void dt()
         });
 
         jButton6.setText("Cancel");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Exit");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -384,8 +391,15 @@ public void dt()
                 .addGap(394, 394, 394))
         );
 
+        jTable1.setBackground(new java.awt.Color(0, 0, 0));
+        jTable1.setForeground(new java.awt.Color(255, 255, 255));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null},
@@ -430,6 +444,11 @@ public void dt()
                 jComboBox1ItemStateChanged(evt);
             }
         });
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -450,7 +469,7 @@ public void dt()
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 83, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -498,7 +517,8 @@ public void dt()
             st.setString(10,padd);
             st.executeUpdate();
             JOptionPane.showMessageDialog(null,"Data is saved");
-
+            jButton1.setEnabled(true);
+            jButton5.setEnabled(false);
         }
 
         catch(SQLException ab)
@@ -515,6 +535,7 @@ public void dt()
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        jButton5.setEnabled(false);
         jButton2.setEnabled(true);
         jButton3.setEnabled(true);
         dt();
@@ -539,6 +560,9 @@ public void dt()
             JOptionPane.showMessageDialog(null,"Data is deleteed");
             clear();
             dt();
+            jButton3.setEnabled(false);
+            jButton2.setEnabled(false);
+            jButton1.setEnabled(true);
         }
 
         catch(SQLException ab)
@@ -585,6 +609,9 @@ public void dt()
             JOptionPane.showMessageDialog(null,"Data is updated");
             dt();
             clear();
+            jButton3.setEnabled(false);
+            jButton2.setEnabled(false);
+            jButton1.setEnabled(true);
         }
 
         catch(SQLException ab)
@@ -601,6 +628,8 @@ public void dt()
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jButton2.setEnabled(false);
+        jButton3.setEnabled(false);
         jButton5.setEnabled(true);
         jButton1.setEnabled(false);
 
@@ -648,20 +677,20 @@ public void dt()
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-try
+      try
       {
-          String cu="jdbc:derby://localhost:1527/u_cars";
-    Connection connection=null;
-    ResultSet rs=null;
-    PreparedStatement ps=null;
+        
+        
+        
+        
         
             int roll=Integer.parseInt(jComboBox1.getSelectedItem().toString());
             Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
-            connection=DriverManager.getConnection(cu,"ritik","ritik");
+            c=DriverManager.getConnection(cu,"ritik","ritik");
             String sql="select * from d_ddetails where d_id=?";
-            ps=connection.prepareStatement(sql);
-            ps.setInt(1, roll);
-            rs=ps.executeQuery();
+            st=c.prepareStatement(sql);
+            st.setInt(1,roll);
+            rs=st.executeQuery();
             
             int i=0;
             while(rs.next())
@@ -688,8 +717,26 @@ try
       catch(Exception e)
       {
           e.printStackTrace();
-      }        // TODO add your handling code here:
+      }        // TODO add your hand
+        
+        
     }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        clear();
+        jButton1.setEnabled(true);
+        jButton4.setEnabled(true);
+        jButton3.setEnabled(false);
+        jButton2.setEnabled(false);
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
