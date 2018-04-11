@@ -41,24 +41,51 @@ public class dr extends javax.swing.JFrame {
      */
     public dr() {
         initComponents();
-        fc();
+        //fc();
         jTextField1.setEnabled(false);
         
     }
-   void fc()
+   void incr()
+   {
+       try
+       {
+     Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
+     c=DriverManager.getConnection(cu,"ritik","ritik");
+     s=c.createStatement();
+     String sql="select D_ID from d_ddetails";
+     rs=s.executeQuery(sql);
+     while(rs.next())
+     {
+         jTextField1.setText(String.valueOf(rs.getInt("D_ID")));
+         
+     }
+     int a = Integer.parseInt(jTextField1.getText());
+     a=a+1;
+     jTextField1.setText(String.valueOf(a));
+       }
+       catch(SQLException se)
+        {
+            se.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+   }
+    void fc()
     {
      try
      {
         
     
-         Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
+     Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
      c=DriverManager.getConnection(cu,"ritik","ritik");
      s=c.createStatement();
      String sql="select d_id from d_ddetails";
      rs=s.executeQuery(sql);
      jComboBox1.removeAllItems();
     
-     jComboBox1.addItem("1");
+     
      while(rs.next())
      {
          jComboBox1.addItem(String.valueOf(rs.getInt("d_id")));
@@ -632,6 +659,7 @@ public void dt()
         jButton3.setEnabled(false);
         jButton5.setEnabled(true);
         jButton1.setEnabled(false);
+        incr();
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
