@@ -5,6 +5,7 @@
  */
 package uc;
 
+import java.awt.Color;
 import java.io.File;
 import java.sql.*;
 import javax.swing.*;
@@ -32,7 +33,7 @@ public class dr extends javax.swing.JFrame {
     String cu="jdbc:derby://localhost:1527/u_cars";
     Connection c=null;
     PreparedStatement st=null;
-    ResultSet rs=null;
+    ResultSet rs,rs1=null;
     Statement s=null;
     JFileChooser a =new JFileChooser();
     
@@ -41,8 +42,10 @@ public class dr extends javax.swing.JFrame {
      */
     public dr() {
         initComponents();
-        //fc();
+        fc();
         jTextField1.setEnabled(false);
+        jTable1.repaint();
+        
         
     }
    void incr()
@@ -81,14 +84,14 @@ public class dr extends javax.swing.JFrame {
      Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
      c=DriverManager.getConnection(cu,"ritik","ritik");
      s=c.createStatement();
-     String sql="select d_id from d_ddetails";
-     rs=s.executeQuery(sql);
-     jComboBox1.removeAllItems();
-    
+     String sql="select d_name from d_ddetails";
+     rs1=s.executeQuery(sql);
+     jComboBox2.removeAllItems();
+     //jComboBox1.addItem("Choose any one");
      
-     while(rs.next())
+     while(rs1.next())
      {
-         jComboBox1.addItem(String.valueOf(rs.getInt("d_id")));
+         jComboBox2.addItem(rs1.getString("d_name"));
          
      }
      }
@@ -140,6 +143,8 @@ public void dt()
                 i++;
                 
             }
+            jTable1.repaint();
+            
         }
     catch(SQLException se)
     {
@@ -191,7 +196,7 @@ public void dt()
         jTextField8 = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("::Driver Registration::");
@@ -202,6 +207,7 @@ public void dt()
 
         jLabel2.setText("Driver Name");
 
+        jTextField2.setInputVerifier(new uc.fname());
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -210,6 +216,7 @@ public void dt()
 
         jLabel3.setText("Mobile Number");
 
+        jTextField3.setInputVerifier(new uc.mob());
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);
@@ -220,6 +227,7 @@ public void dt()
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
+        jTextArea1.setInputVerifier(new uc.lname());
         jScrollPane1.setViewportView(jTextArea1);
 
         jLabel5.setText("Permanent Address");
@@ -230,12 +238,14 @@ public void dt()
 
         jLabel6.setText("Email Id");
 
+        jTextField4.setInputVerifier(new uc.email());
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField4ActionPerformed(evt);
             }
         });
 
+        jTextField5.setInputVerifier(new uc.mob());
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField5ActionPerformed(evt);
@@ -466,14 +476,9 @@ public void dt()
             jTable1.getColumnModel().getColumn(9).setResizable(false);
         }
 
-        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox1ItemStateChanged(evt);
-            }
-        });
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                jComboBox2ItemStateChanged(evt);
             }
         });
 
@@ -489,8 +494,8 @@ public void dt()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(180, 180, 180))))
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(144, 144, 144))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -499,8 +504,8 @@ public void dt()
                 .addContainerGap(83, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(66, 66, 66)
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(138, 138, 138))
         );
@@ -590,6 +595,7 @@ public void dt()
             jButton3.setEnabled(false);
             jButton2.setEnabled(false);
             jButton1.setEnabled(true);
+            jTable1.repaint();
         }
 
         catch(SQLException ab)
@@ -634,7 +640,8 @@ public void dt()
             st.setInt(10, id);
             st.execute();
             JOptionPane.showMessageDialog(null,"Data is updated");
-            dt();
+            jTable1.repaint();
+            
             clear();
             jButton3.setEnabled(false);
             jButton2.setEnabled(false);
@@ -704,36 +711,44 @@ public void dt()
         // TODO add your handling code here:
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-      try
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        clear();
+        jButton1.setEnabled(true);
+        jButton4.setEnabled(true);
+        jButton3.setEnabled(false);
+        jButton2.setEnabled(false);
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
+
+try
       {
+          
         
-        
-        
-        
-        
-            int roll=Integer.parseInt(jComboBox1.getSelectedItem().toString());
+            String roll=jComboBox2.getSelectedItem().toString();
             Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
             c=DriverManager.getConnection(cu,"ritik","ritik");
-            String sql="select * from d_ddetails where d_id=?";
+            String sql="select * from d_ddetails where d_name=?";
             st=c.prepareStatement(sql);
-            st.setInt(1,roll);
+            st.setString(1, roll);
             rs=st.executeQuery();
             
             int i=0;
             while(rs.next())
             {
-                jTable1.setValueAt(db.rs.getInt(1), i, 0);
-                jTable1.setValueAt(db.rs.getString(2), i, 1);
-                jTable1.setValueAt(db.rs.getString(3), i, 2);
-                jTable1.setValueAt(db.rs.getString(4), i, 3);
-                jTable1.setValueAt(db.rs.getString(5), i, 4);
-                jTable1.setValueAt(db.rs.getString(6), i, 5);
-                jTable1.setValueAt(db.rs.getString(7), i, 6);
-                jTable1.setValueAt(db.rs.getString(8), i, 7);
-                jTable1.setValueAt(db.rs.getString(9), i, 8);
-                jTable1.setValueAt(db.rs.getString(10), i, 9);
-                i++;  
+                jTable1.setValueAt(rs.getInt(1), i, 0);
+                jTable1.setValueAt(rs.getString(2), i, 1);
+                jTable1.setValueAt(rs.getString(3), i, 2);
+                jTable1.setValueAt(rs.getString(4), i, 3);
+                jTable1.setValueAt(rs.getString(5), i, 4);
+                jTable1.setValueAt(rs.getString(6), i, 5);
+                jTable1.setValueAt(rs.getString(7), i, 6);
+                jTable1.setValueAt(rs.getString(8), i, 7);
+                jTable1.setValueAt(rs.getString(9), i, 8);
+                jTable1.setValueAt(rs.getString(10), i, 9);
+                i++; 
                 
             }
      
@@ -745,26 +760,11 @@ public void dt()
       catch(Exception e)
       {
           e.printStackTrace();
-      }        // TODO add your hand
-        
-        
-    }//GEN-LAST:event_jComboBox1ItemStateChanged
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+      }
 
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        clear();
-        jButton1.setEnabled(true);
-        jButton4.setEnabled(true);
-        jButton3.setEnabled(false);
-        jButton2.setEnabled(false);
-        
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_jComboBox2ItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -809,7 +809,7 @@ public void dt()
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
